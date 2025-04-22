@@ -11,7 +11,7 @@ person_home_ownership_encoder = pickle.load(open("person_home_ownership_encode.p
 loan_intent_encoder = pickle.load(open("loan_intent_encode.pkl", "rb"))
 
 scalers = {}
-for col in ['person_age', 'person_income', 'person_emp_length', 'loan_amnt', 'loan_int_rate']:
+for col in ['person_age', 'person_income', 'person_emp_exp', 'loan_amnt', 'loan_int_rate']:
     scalers[col] = pickle.load(open(f"{col}_scaler.pkl", "rb"))
 
 st.title("Loan Approval Prediction App")
