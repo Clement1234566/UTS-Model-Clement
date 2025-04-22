@@ -64,7 +64,14 @@ if st.button("Predict"):
     model_columns = xgb.get_booster().feature_names
     final_df = final_df[model_columns]
 
-    # Use the xgb model for prediction
-    prediction = xgb.predict(final_df)[0]
+    # Use the xgb model for prediction (if using probability)
+    # For XGBoost, if you want probabilities:
+    probability = xgb.predict_proba(final_df)[:, 1][0]  # Probability of class 1 (Approved)
+    threshold = 0.5  # Change threshold if needed
+    prediction = 1 if probability >= threshold else 0
+    
+    # Map prediction to label
     label = "Approved" if prediction == 1 else "Rejected"
     st.subheader(f"Loan Status Prediction: {label}")
+    st.write(f"Probability of Approval: {probability * 100:.2f}%")
+
