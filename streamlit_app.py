@@ -54,6 +54,7 @@ if st.button("Predict"):
 
     final_df = pd.concat([df.reset_index(drop=True), home_encoded_df, intent_encoded_df], axis=1)
 
-    prediction = model.predict(final_df)[0]
+    # Use the xgb model for prediction
+    prediction = xgb.predict(final_df)[0]
     label = "Approved" if prediction == 1 else "Rejected"
     st.subheader(f"Loan Status Prediction: {label}")
