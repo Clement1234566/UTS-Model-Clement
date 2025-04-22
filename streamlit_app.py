@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 
 # Load models and encoders
-model = pickle.load(open("xgb_model.pkl", "rb"))
+xgb = pickle.load(open("xgb_model.pkl", "rb"))
 gender_encoder = pickle.load(open("gender_encode.pkl", "rb"))
 previous_loan_encoder = pickle.load(open("previous_loan_encode.pkl", "rb"))
 person_education_encoder = pickle.load(open("person_education_encode.pkl", "rb"))
