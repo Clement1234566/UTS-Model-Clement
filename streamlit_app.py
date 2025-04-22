@@ -25,7 +25,7 @@ gender = st.selectbox("Gender", ["Male", "Female"])
 age = st.number_input("Age", min_value=18, max_value=100)
 income = st.number_input("Income", min_value=0)
 education = st.selectbox("Education", ["High School", "Associate", "Bachelor", "Master", "Doctorate"])
-emp_length = st.number_input("Employment Length (Years)", min_value=0.0, step=0.1)
+emp_exp = st.number_input("Employment exp (Years)", min_value=0.0, step=0.1)
 home = st.selectbox("Home Ownership", ["Rent", "Own", "Mortgage", "Other"])
 intent = st.selectbox("Loan Intent", ["Debt Consolidation", "Home Improvement", "Education", "Medical", "Personal", "Venture"])
 amount = st.number_input("Loan Amount", min_value=0.0)
@@ -39,7 +39,7 @@ if st.button("Predict"):
         "person_age": [scalers['person_age'].transform([[age]])[0][0]],
         "person_income": [scalers['person_income'].transform([[income]])[0][0]],
         "person_education": [person_education_encoder['person_education'][education]],
-        "person_emp_length": [scalers['person_emp_length'].transform([[emp_length]])[0][0]],
+        "person_emp_exp": [scalers['person_emp_exp'].transform([[emp_exp]])[0][0]],
         "loan_amnt": [scalers['loan_amnt'].transform([[amount]])[0][0]],
         "loan_int_rate": [scalers['loan_int_rate'].transform([[rate]])[0][0]],
         "previous_loan_defaults_on_file": [previous_loan_encoder[default]]
