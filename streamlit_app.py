@@ -33,7 +33,7 @@ rate = st.number_input("Loan Interest Rate (%)", min_value=0.0)
 default = st.selectbox("Previous Loan Defaults", ["Yes", "No"])
 
 if st.button("Predict"):
-    # Create dataframe
+    # Create dataframe with missing features added
     df = pd.DataFrame({
         "person_gender": [gender_encoder[gender]],
         "person_age": [scalers['person_age'].transform([[age]])[0][0]],
@@ -42,16 +42,22 @@ if st.button("Predict"):
         "person_emp_exp": [scalers['person_emp_exp'].transform([[emp_exp]])[0][0]],
         "loan_amnt": [scalers['loan_amnt'].transform([[amount]])[0][0]],
         "loan_int_rate": [scalers['loan_int_rate'].transform([[rate]])[0][0]],
-        "previous_loan_defaults_on_file": [previous_loan_encoder[default]]
+        "previous_loan_defaults_on_file": [previous_loan_encoder[default]],
+        
+        # Add missing features with default values or estimations
+        "credit_score": [700],  # Default value for credit score (example)
+        "cb_person_cred_hist_length": [5],  # Default value for credit history length (example)
+        "loan_percent_income": [amount / income if income > 0 else 0],  # Loan-to-income ratio
     })
 
-    # One-hot encoding
+    # One-hot encoding for categorical features
     home_encoded = person_home_ownership_encoder.transform([[home]]).toarray()
     home_encoded_df = pd.DataFrame(home_encoded, columns=person_home_ownership_encoder.get_feature_names_out())
 
     intent_encoded = loan_intent_encoder.transform([[intent]]).toarray()
     intent_encoded_df = pd.DataFrame(intent_encoded, columns=loan_intent_encoder.get_feature_names_out())
 
+    # Combine all features into the final dataframe
     final_df = pd.concat([df.reset_index(drop=True), home_encoded_df, intent_encoded_df], axis=1)
 
     # Use the xgb model for prediction
